@@ -1,13 +1,28 @@
 import pandas as pd
 import kagglehub
 from kagglehub import KaggleDatasetAdapter
+import os
 
 #Extract
 #Cargar datos
-path = kagglehub.dataset_download("arevel/chess-games")
-print("Path to dataset files:", path)
-df = pd.read_csv(path + "/chess_games.csv")
-print("Datos cargados.")
+# Nombre del archivo esperado dentro del dataset
+filename = "chess_games.csv"
+
+# Ruta esperada (esta puede variar, pero en general KaggleHub guarda datasets en ~/.cache/kagglehub/)
+dataset_path = os.path.expanduser("~/.cache/kagglehub/datasets/arevel/chess-games/files")
+file_path = os.path.join(dataset_path, filename)
+
+# Verificar si el archivo ya existe antes de descargar
+if os.path.exists(file_path):
+    print("✔ El archivo ya existe localmente. Cargando datos desde disco...")
+else:
+    print("⬇ El archivo no existe. Descargando desde Kaggle...")
+    path = kagglehub.dataset_download("arevel/chess-games")
+    print("✅ Descarga completada.")
+    file_path = os.path.join(path, filename)
+
+df = pd.read_csv(file_path)
+print("📄 Datos cargados correctamente.")
 
 #Mostrar si hay datos faltantes en el DataFrame
 print("Datos faltantes en el DataFrame:")
