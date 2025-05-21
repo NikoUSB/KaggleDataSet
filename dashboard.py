@@ -86,3 +86,6 @@ app.layout = html.Div([
     ], style={'width': '100%', 'padding': '20px 0'}),
 ])
 
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
